@@ -4,5 +4,7 @@ Rails.application.routes.draw do
 
   root 'yolo#index'
 
+  resources :videos
+
   mount Sidekiq::Web => '/sidekiq'
 end

@@ -4,6 +4,7 @@ class CreateVideos < ActiveRecord::Migration[5.0]
       t.string :titre
       t.text :description
       t.string :video_url
+      t.text :tags, array: true, default: []
       t.timestamps
     end
   end

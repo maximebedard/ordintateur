@@ -20,6 +20,7 @@ module Ordinateur
   end
 
   class Application < Rails::Application
+    config.responders.flash_keys = [ :success, :failure ]
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
