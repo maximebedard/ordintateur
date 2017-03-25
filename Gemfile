@@ -19,6 +19,7 @@ gem 'sidekiq'
 gem 'devise'
 gem 'sinatra', github: 'sinatra/sinatra', require: false
 gem 'aws-sdk'
+gem 'responders'
 
 # https://github.com/bokmann/font-awesome-rails
 gem "font-awesome-rails"

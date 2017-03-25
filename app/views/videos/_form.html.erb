@@ -1,0 +1,10 @@
+<%= form_for(@video, html: { multipart: true }) do |f| %>
+  <%= errors_summary(@video) %>
+  
+  <%= f.text_field :titre %>
+  <%= f.text_area :description %>
+  <%= f.text_field :tags %>
+  <%= f.file_field :video_url %>
+  <%= f.submit %>
+
+<% end %>
