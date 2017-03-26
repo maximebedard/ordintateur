@@ -7,8 +7,11 @@ class Video < ApplicationRecord
     ""
   end
 
-  def views_count
-    # shitty but works
-    Ordinateur.redis.increment("views:#{@video.id}:#{current_user.id}")
+  def view_count
+    @view_count ||= Ordinateur.redis.hgetall("views:#{id}").sum
+  end
+
+  def increment_view_count(current_user)
+    Ordinateur.redis.incr("views:#{id}:#{current_user.id}")
   end
 end

@@ -6,7 +6,7 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.find(params[:id])
-    @feedback = Ordinateur.redis.hget("likes:#{current_user.id}")
+    @video.increment_view_count(current_user)
   end
 
   def new
@@ -20,7 +20,6 @@ class VideosController < ApplicationController
   end
 
   def like
-    Ordinateur.redis.hset("likes:#{current_user.id}", !!params[:feedback])
   end
 
   def update

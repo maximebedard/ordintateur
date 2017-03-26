@@ -7,8 +7,7 @@
   <%= link_to nil, "👍" %>
   <%= link_to nil, "👎" %>
 
-  Views: <%= @video.views_count %>
+  Views: <%= @video.view_count %>
 
   <%= render(@video.comments) %>
-  <%= render "add_comment", comment: Comment.new %>
 </div>
