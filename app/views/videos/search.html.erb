@@ -64,7 +64,7 @@ Duration: <select id="duration">
          // no xss plz
          return `
 <div class="video">
-<h3><a>${video.titre}</a></h3>
+<h3><a href="/videos/${video.id}">${video.titre}</a></h3>
 <video poster="${video.thumbnail}" src="${video.public_url}" with="400" height="200"  class="preview" >
 </video>
 <p>${summary}</p>

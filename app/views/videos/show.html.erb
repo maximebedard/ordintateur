@@ -19,3 +19,13 @@
     <%= render "add_comment", video: @video, comment: Comment.new %>
   </div>
 </div>
+
+<script>
+ var t = location.search.match(/t=(\d+)/)[1];
+ if(t) {
+     $('video').on('loadedmetadata', function() {
+         this.currentTime = parseInt(t);
+         this.play();
+     });
+ }
+</script>
