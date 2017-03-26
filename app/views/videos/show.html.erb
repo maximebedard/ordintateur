@@ -12,6 +12,9 @@
       <%= render comment %>
     <% end %>
   </div>
+
+  <%= link_to "share on facebook", "https://www.facebook.com/sharer/sharer.php?u=#{video_url(@video)}" %>
+  <%= link_to "share on twitter", "https://twitter.com/home?status=#{video_url(@video)}" %>
   <div class="add-comment">
     <%= render "add_comment", video: @video, comment: Comment.new %>
   </div>
