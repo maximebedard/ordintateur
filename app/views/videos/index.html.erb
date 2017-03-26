@@ -1,11 +1,19 @@
-<% if @videos.empty? %>
-  <h1>Les internets sont déçu car il n'y a aucun dank videos.</h1>
-<% end %>
+<div class="container-fluid">
+  <% if @videos.empty? %>
+    <h1>Les internets sont déçu car il n'y a aucun dank videos.</h1>
+  <% end %>
 
-<% @videos.each do |video| %>
-  <div class="video">
-    <h3><a><%= video.titre %></a></h3>
-    <video poster="<%= video.thumbnail %>" src="<%= video.public_url %>" with="400" height="200"  class="preview" >
-    </video>
+  <% @videos.each do |video| %>
+    <div class="video">
+      <%= link_to video_path(video) do %>
+        <h3><%= video.titre %></h3>
+        <video poster="<%= video.thumbnail %>" src="<%= video.public_url %>" with="400" height="200"  class="preview" >
+        </video>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="pull-right">
+    <h3><%= link_to "🎥 Ajouter un dank video", new_video_path %></h3>
   </div>
-<% end %>
+</div>
