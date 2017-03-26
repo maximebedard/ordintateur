@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20170326003554) do
     t.string   "titre"
     t.text     "description"
     t.string   "video_url"
+    t.text     "tags",        default: [],              array: true
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
