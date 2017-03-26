@@ -3,10 +3,21 @@
 </h2>
 
 <p>
-  <input name="search" type="text" value="" class="form-control typeahead"/> <button id="submit" class="btn btn-primary">Search</button>
+  <input name="search" type="text" value="<%= @q %>" class="form-control typeahead"/> <button id="submit" class="btn btn-primary">Search</button>
+</p>
+
+<p>
+Duration: <select id="duration">
+  <option value="all">All</option>
+  <option value="short">Short: < 1 minute</option>
+  <option value="long">Long: < 20 minutes</option>
+</select>
 </p>
 
 <div id="videos"></div>
+
+<style>
+</style>
 
 <script>
 
@@ -37,22 +48,27 @@
 
  $(function() {
      var videosContainer = $('#videos');
+     var preview = $('#preview');
 
      var params = {
          filter: function(x) {
              return true;
-         }
+         },
+         duration: 'all'
      };
 
      var videos = [];
 
      function videoTemplate(video) {
          var summary = video.description.substr(0, 200);
-
+         // no xss plz
          return `
-<div>
+<div class="video">
 <h3><a>${video.titre}</a></h3>
+<video poster="${video.thumbnail}" src="${video.public_url}" with="400" height="200"  class="preview" >
+</video>
 <p>${summary}</p>
+<p>Duration: ${video.duration} seconds</p>
 </div>
 `
      }
@@ -64,14 +80,29 @@
          });
      }
 
+     function checkDuration(d) {
+         console.log(d)
+         if(d == 'all') return (x) => x;
+         if(d == 'short') return (x) => x.duration < 60;
+         if(d == 'long') return (x) => x.duration < 60 * 20;
+     }
+
+
      function update() {
          var html = videos.filter(params.filter)
+                          .filter(checkDuration(params.duration))
                           .map(videoTemplate)
                           .join(" ");
 
          console.log('update')
 
          videosContainer.html(html);
+
+         videosContainer.find('video').mouseenter(function() {
+             $(this)[0].play();
+         }).mouseleave(function() {
+             $(this)[0].pause();
+         });
      }
 
      fetch(function() {
@@ -90,11 +121,17 @@
              };
 
              update();
+         }).click();
+
+         $('#duration').change(function() {
+             params.duration = this.value;
+             update();
          });
+
+
 
          update();
      });
-
  });
 
 </script>

@@ -35,10 +35,12 @@ class VideosController < ApplicationController
   end
 
   def search
+    @q = params[:q]
+
     respond_to do |format|
       format.html
       format.json {
-        render json: Video.all
+        render json: Video.all.to_json(methods: [:duration, :thumbnail, :public_url])
       }
     end
   end
@@ -52,6 +54,7 @@ class VideosController < ApplicationController
     @video.video_url = upload_video(io)
     @video.user = current_user
     @video.tags = Array(tags.split(","))
+
     @video.save
   end
 
@@ -61,11 +64,16 @@ class VideosController < ApplicationController
 
   def upload_video(uploaded_io)
     destination_dir = FileUtils.mkdir_p("#{Rails.root}/public/uploads/#{SecureRandom.hex}").first
-    destination_path = "#{destination_dir}/#{uploaded_io.original_filename.parameterize('_')}"
+    destination_path = "#{destination_dir}/#{uploaded_io.original_filename}"
+    ext = File.extname(uploaded_io.original_filename)
 
     File.open(destination_path, 'wb') do |file|
       file.write(uploaded_io.read)
     end
+
+    # Thumbnail
+    `convert #{destination_path}[0] #{destination_dir}/thumb.jpg`
+
 
     destination_path
   end
