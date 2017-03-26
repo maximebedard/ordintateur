@@ -7,7 +7,9 @@ Rails.application.routes.draw do
   root 'yolo#index'
 
   resources :videos do
+    post :like
     resources :comments, only: [:create]
+
   end
 
   get '/profile' => 'profile#index'

@@ -1,5 +1,5 @@
 class VideosController < ApplicationController
-  respond_to :html, :json
+  respond_to :html, :json, :js
   def index
     @videos = Video.all
   end
@@ -7,6 +7,7 @@ class VideosController < ApplicationController
   def show
     @video = Video.find(params[:id])
     @video.increment_view_count(current_user)
+    @liked = false
   end
 
   def new
@@ -20,6 +21,7 @@ class VideosController < ApplicationController
   end
 
   def like
+    @liked = false
   end
 
   def update
