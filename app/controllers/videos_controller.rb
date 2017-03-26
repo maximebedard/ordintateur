@@ -13,7 +13,7 @@ class VideosController < ApplicationController
 
   def create
     @video = Video.new(video_params)
-    @video.video_url = upload_video(params[:video][:io])
+    @video.video_url = upload_video(params[:video][:io]) if @video.valid?
     @video.save
 
     respond_with(@video)
