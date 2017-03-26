@@ -4,6 +4,11 @@
     Your browser does not support the video tag.
   </video>
 
+  <%= link_to nil, "👍" %>
+  <%= link_to nil, "👎" %>
+
+  Views: <%= @video.views_count %>
+
   <%= render(@video.comments) %>
   <%= render "add_comment", comment: Comment.new %>
 </div>

@@ -6,6 +6,7 @@ class VideosController < ApplicationController
 
   def show
     @video = Video.find(params[:id])
+    @feedback = Ordinateur.redis.hget("likes:#{current_user.id}")
   end
 
   def new
@@ -13,18 +14,18 @@ class VideosController < ApplicationController
   end
 
   def create
-    @video = Video.new(video_params)
-    @video.video_url = upload_video(params[:video][:io]) if @video.valid?
-    @video.save
-
+    @video = Video.new
+    update_video
     respond_with(@video)
+  end
+
+  def like
+    Ordinateur.redis.hset("likes:#{current_user.id}", !!params[:feedback])
   end
 
   def update
     @video = Video.find(params[:id])
-    @video.assign_attributes(video_params)
-    @video.video_url = upload_video(params[:video][:io]) if @video.valid?
-    @video.save
+    update_video
 
     respond_with(@video)
   end
@@ -44,8 +45,18 @@ class VideosController < ApplicationController
 
   private
 
+  def update_video
+    io = params[:video].delete(:io)
+    tags = params[:video].delete(:tags)
+    @video.assign_attributes(video_params)
+    @video.video_url = upload_video(io)
+    @video.user = current_user
+    @video.tags = Array(tags.split(","))
+    @video.save
+  end
+
   def video_params
-    params.require(:video).permit(:titre, :description, :tags)
+    params.require(:video).permit(:titre, :description, :io, :tags)
   end
 
   def upload_video(uploaded_io)
