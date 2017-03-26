@@ -12,6 +12,7 @@ test:
   <<: *default
   database: ordinateur_test
 
+
 production:
   <<: *default
-  url: <%= ENV['HEROKU_POSTGRESQL_AQUA_URL'] %>
+  database: ordinateur_prod
