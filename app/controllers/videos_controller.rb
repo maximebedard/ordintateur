@@ -22,6 +22,7 @@ class VideosController < ApplicationController
   def update
     @video = Video.find(params[:id])
     @video.assign_attributes(video_params)
+    @video.video_url = upload_video(params[:video][:io]) if @video.valid?
     @video.save
 
     respond_with(@video)
