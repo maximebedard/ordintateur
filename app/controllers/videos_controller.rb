@@ -1,4 +1,5 @@
 class VideosController < ApplicationController
+  respond_to :html, :json
   def index
   end
 
@@ -12,6 +13,7 @@ class VideosController < ApplicationController
 
   def create
     @video = Video.new(video_params)
+    @video.video_url = upload_video(params[:video][:io])
     @video.save
 
     respond_with(@video)
@@ -32,6 +34,17 @@ class VideosController < ApplicationController
   private
 
   def video_params
-    params.require(:video).permit(:titre, :description)
+    params.require(:video).permit(:titre, :description, :tags)
+  end
+
+  def upload_video(uploaded_io)
+    destination_dir = FileUtils.mkdir_p("#{Rails.root}/public/uploads/#{SecureRandom.hex}").first
+    destination_path = "#{destination_dir}/#{uploaded_io.original_filename.parameterize('_')}"
+
+    File.open(destination_path, 'wb') do |file|
+      file.write(uploaded_io.read)
+    end
+
+    destination_path
   end
 end
