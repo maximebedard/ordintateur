@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20170326003554) do
     t.integer  "user_id"
     t.integer  "video_id"
     t.integer  "seconds_from_start"
-    t.integer  "description"
+    t.text  "description"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
   end

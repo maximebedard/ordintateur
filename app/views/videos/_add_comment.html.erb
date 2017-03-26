@@ -1,4 +1,4 @@
-<%= form_for(comment) do |f| %>
+<%= form_for(comment, url: video_add_comment_path(@video), remote: true) do |f| %>
   <%= errors_summary(comment) %>
 
   <div class="form-group">
@@ -7,8 +7,8 @@
   </div>
 
   <div class="form-group">
-    <%= f.label :second_from_start %>
-    <%= f.text_field :second_from_start %>
+    <%= f.label :seconds_from_start %>
+    <%= f.text_field :seconds_from_start %>
   </div>
 
   <%= f.submit class: "btn btn-primary" %>

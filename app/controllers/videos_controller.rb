@@ -1,12 +1,13 @@
 class VideosController < ApplicationController
-  respond_to :html, :json
+  respond_to :html, :json, :js
   def index
     @videos = Video.all
   end
 
   def show
     @video = Video.find(params[:id])
-    @feedback = Ordinateur.redis.hget("likes:#{current_user.id}")
+    @video.increment_view_count(current_user)
+    @liked = false
   end
 
   def new
@@ -20,7 +21,20 @@ class VideosController < ApplicationController
   end
 
   def like
-    Ordinateur.redis.hset("likes:#{current_user.id}", !!params[:feedback])
+    @liked = false
+  end
+
+  def add_comment
+    @video = Video.find(params[:video_id])
+
+    video_comment_params = params.require(:comment).permit(:description, :seconds_from_start)
+
+    @comment = Comment.new(video_comment_params)
+    @comment.video = @video
+    @comment.user = current_user
+    @comment.save
+
+    respond_with(@comment)
   end
 
   def update
