@@ -1,6 +1,7 @@
 class VideosController < ApplicationController
   respond_to :html, :json
   def index
+    @videos = Video.all
   end
 
   def show
@@ -30,6 +31,15 @@ class VideosController < ApplicationController
 
   def delete
     @video = Video.delete(params[:id])
+  end
+
+  def search
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: Video.all
+      }
+    end
   end
 
   private

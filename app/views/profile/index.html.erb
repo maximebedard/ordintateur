@@ -1,0 +1,9 @@
+<h2><%= @user.name || 'Anonymous' %></h2>
+<p>
+<% if current_user.id == @user.id  %>
+  <a class="btn btn-primary" href="/profile/edit">Edit profile</a>
+<% end %>
+</p>
+
+<img alt="" src="<%= @user.avatar  %>" class="avatar"/>
+<p><%= @user.description %></p>

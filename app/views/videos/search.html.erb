@@ -1,0 +1,100 @@
+<h2>
+  Search
+</h2>
+
+<p>
+  <input name="search" type="text" value="" class="form-control typeahead"/> <button id="submit" class="btn btn-primary">Search</button>
+</p>
+
+<div id="videos"></div>
+
+<script>
+
+ var substringMatcher = function(strs) {
+     strs = strs.map((x) => `${x.titre}`)
+
+     return function findMatches(q, cb) {
+
+         var matches, substringRegex;
+
+         // an array that will be populated with substring matches
+         matches = [];
+
+         // regex used to determine if a string contains the substring `q`
+         substrRegex = new RegExp(q, 'i');
+
+         // iterate through the pool of strings and for any string that
+         // contains the substring `q`, add it to the `matches` array
+         $.each(strs, function(i, str) {
+             if (substrRegex.test(str)) {
+                 matches.push(str);
+             }
+         });
+
+         cb(matches);
+     };
+ };
+
+ $(function() {
+     var videosContainer = $('#videos');
+
+     var params = {
+         filter: function(x) {
+             return true;
+         }
+     };
+
+     var videos = [];
+
+     function videoTemplate(video) {
+         var summary = video.description.substr(0, 200);
+
+         return `
+<div>
+<h3><a>${video.titre}</a></h3>
+<p>${summary}</p>
+</div>
+`
+     }
+
+     function fetch(cb) {
+         $.get('/search.json').done(function(data) {
+             videos = data;
+             cb(data)
+         });
+     }
+
+     function update() {
+         var html = videos.filter(params.filter)
+                          .map(videoTemplate)
+                          .join(" ");
+
+         console.log('update')
+
+         videosContainer.html(html);
+     }
+
+     fetch(function() {
+         var input = $('.typeahead').typeahead({
+             hint: true,
+             highlight: true,
+             minLength: 1
+         }, {
+             name: 'videos',
+             source: substringMatcher(videos)
+         });
+
+         $('#submit').click(function() {
+             params.filter = function(video) {
+                 return `${video.titre} ${video.description}`.indexOf(input.val()) !== -1;
+             };
+
+             update();
+         });
+
+         update();
+     });
+
+ });
+
+</script>

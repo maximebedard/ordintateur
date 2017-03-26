@@ -1,0 +1,14 @@
+<%= form_tag("/profile", method: "post") do %>
+  Name: <br>
+  <input name="user[name]" type="text" value="<%= @user.name %>"  class="form-control"/>
+
+  Description: <br>
+  <textarea class="form-control" name="user[description]"></textarea>
+
+  Avatar URL: <br>
+  <input class="form-control" name="user[avatar]" type="text" value="<%= @user.avatar %>" />
+
+  <br>
+  <input class="form-control" name="" type="submit" value="Update"/>
+
+<% end %>
