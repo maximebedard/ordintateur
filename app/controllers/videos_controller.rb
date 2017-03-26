@@ -1,7 +1,7 @@
 class VideosController < ApplicationController
   respond_to :html, :json, :js
   def index
-    @videos = Video.all
+    @videos = Video.order(created_at: :desc)
   end
 
   def show

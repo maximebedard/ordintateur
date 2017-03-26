@@ -1,2 +1,11 @@
-<% @videos.each do |v| %>
+<% if @videos.empty? %>
+  <h1>Les internets sont déçu car il n'y a aucun dank videos.</h1>
+<% end %>
+
+<% @videos.each do |video| %>
+  <div class="video">
+    <h3><a><%= video.titre %></a></h3>
+    <video poster="<%= video.thumbnail %>" src="<%= video.public_url %>" with="400" height="200"  class="preview" >
+    </video>
+  </div>
 <% end %>
