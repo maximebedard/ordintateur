@@ -4,10 +4,15 @@
     Your browser does not support the video tag.
   </video>
 
-  <%= link_to "Gud shit.", video_like_path(@video, liked: true), method: :post, class: "likebtn", remote: true %>
-  <%= link_to "fuck this.", video_like_path(@video, liked: false), method: :post, class: "likebtn", remote: true%>
-
+  <%= render partial: "liked" %>
   Views: <%= @video.view_count %>
 
-  <%= render(@video.comments) %>
+  <div class="comments">
+    <% @video.comments.each do |comment| %>
+      <%= render comment %>
+    <% end %>
+  </div>
+  <div class="add-comment">
+    <%= render "add_comment", video: @video, comment: Comment.new %>
+  </div>
 </div>

@@ -24,6 +24,19 @@ class VideosController < ApplicationController
     @liked = false
   end
 
+  def add_comment
+    @video = Video.find(params[:video_id])
+
+    video_comment_params = params.require(:comment).permit(:description, :seconds_from_start)
+
+    @comment = Comment.new(video_comment_params)
+    @comment.video = @video
+    @comment.user = current_user
+    @comment.save
+
+    respond_with(@comment)
+  end
+
   def update
     @video = Video.find(params[:id])
     update_video

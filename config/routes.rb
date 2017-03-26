@@ -8,8 +8,7 @@ Rails.application.routes.draw do
 
   resources :videos do
     post :like
-    resources :comments, only: [:create]
-
+    post :add_comment
   end
 
   get '/profile' => 'profile#index'
