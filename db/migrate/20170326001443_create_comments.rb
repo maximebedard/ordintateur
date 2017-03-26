@@ -4,7 +4,7 @@ class CreateComments < ActiveRecord::Migration[5.0]
       t.integer :user_id
       t.integer :video_id
       t.integer :seconds_from_start
-      t.integer :description
+      t.text :description
       t.timestamps
     end
   end
