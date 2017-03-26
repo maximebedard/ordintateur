@@ -1,0 +1,9 @@
+<div class="container-fluid">
+  <video width="320" height="240" controls>
+    <source src="<%= @video.public_url %>" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <%= render(@video.comments) %>
+  <%= render "add_comment", comment: Comment.new %>
+</div>
